@@ -220,5 +220,4 @@ class HomeControllerTest {
         // then
         assertEquals(homeController.allMovies, homeController.observableMovies);
     }
-
 }
