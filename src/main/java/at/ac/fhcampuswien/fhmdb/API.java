@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class API {
-    private static final String BASE_URL = "https://prog2.fh-campuswien.ac.at/";
+    private static final String BASE_URL = "https://prog2.fh-campuswien.ac.at/swagger-ui/index.html";
 
     public String getAllMovies() throws Exception {
         URL url = new URL(BASE_URL + "movies");
