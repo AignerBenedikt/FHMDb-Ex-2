@@ -10,12 +10,12 @@ public class Movie {
     private final String title;
     private final String description;
     private final List<Genre> genres;
-    private final int releaseYear;
-    private final double rating;
+    private int releaseYear = 0;
+    private double rating = 0;
     private String director;
     private List<String> mainCast;
 
-    public Movie(String title, String description, List<Genre> genres, int releaseYear, double rating) {
+    public Movie(String title, String description, List<Genre> genres) {
         this.title = title;
         this.description = description;
         this.genres = genres;
@@ -73,33 +73,28 @@ public class Movie {
         movies.add(new Movie(
                 "Life Is Beautiful",
                 "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.",
-                Arrays.asList(Genre.DRAMA, Genre.ROMANCE),
-                1997,
-                8.6));
+                Arrays.asList(Genre.DRAMA, Genre.ROMANCE)
+        ));
         movies.add(new Movie(
                 "The Usual Suspects",
                 "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY),
-                1995,
-                8.5));
+                Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)
+        ));
         movies.add(new Movie(
                 "Puss in Boots",
                 "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION),
-                2011,
-                6.6));
+                Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)
+        ));
         movies.add(new Movie(
                 "Avatar",
                 "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION),
-                2009,
-                7.8));
+                Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION)
+        ));
         movies.add(new Movie(
                 "The Wolf of Wall Street",
                 "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY),
-                2013,
-                8.2));
+                Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY)
+        ));
         return movies;
     }
 

@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -69,6 +70,26 @@ public class HomeController implements Initializable {
         genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
         genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
         genreComboBox.setPromptText("Filter by Genre");
+
+        // Add event handler to searchField
+        searchField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                String searchQuery = searchField.getText().trim().toLowerCase();
+                Object genre = genreComboBox.getSelectionModel().getSelectedItem();
+
+                applyAllFilters(searchQuery, genre);
+                sortMovies(sortedState);
+            }
+        });
+
+        // Add event handler to genreComboBox
+        genreComboBox.setOnAction(event -> {
+            String searchQuery = searchField.getText().trim().toLowerCase();
+            Object genre = genreComboBox.getSelectionModel().getSelectedItem();
+
+            applyAllFilters(searchQuery, genre);
+            sortMovies(sortedState);
+        });
     }
 
     public void sortMovies(){
@@ -101,8 +122,8 @@ public class HomeController implements Initializable {
         return movies.stream()
                 .filter(Objects::nonNull)
                 .filter(movie ->
-                    movie.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                    movie.getDescription().toLowerCase().contains(query.toLowerCase())
+                        movie.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                                movie.getDescription().toLowerCase().contains(query.toLowerCase())
                 )
                 .toList();
     }
@@ -145,5 +166,21 @@ public class HomeController implements Initializable {
 
     public void sortBtnClicked(ActionEvent actionEvent) {
         sortMovies();
+    }
+
+    public String getMostPopularActor(List<Movie> movies) {
+        return null;
+    }
+
+    public int getLongestMovieTitle(List<Movie> movies) {
+        return 0;
+    }
+
+    public long countMoviesFrom(List<Movie> movies, String directorName) {
+        return 0;
+    }
+
+    public List<Movie> getMoviesBetweenYears(List<Movie> movies, int i, int i1) {
+        return null;
     }
 }

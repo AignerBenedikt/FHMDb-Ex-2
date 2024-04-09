@@ -5,9 +5,13 @@ import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.SortedState;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
+import java.util.List;
 
 import java.util.Arrays;
-import java.util.List;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -219,5 +223,36 @@ class HomeControllerTest {
 
         // then
         assertEquals(homeController.allMovies, homeController.observableMovies);
+    }
+    @Test
+    void testGetMostPopularActor() {
+        HomeController controller = new HomeController();
+        List<Movie> movies = Movie.initializeMovies();
+        String mostPopularActor = controller.getMostPopularActor(movies);
+        assertEquals("Actor Name", mostPopularActor); // Replace "Actor Name" with expected result
+    }
+
+    @Test
+    void testGetLongestMovieTitle() {
+        HomeController controller = new HomeController();
+        List<Movie> movies = Movie.initializeMovies();
+        int longestTitleLength = controller.getLongestMovieTitle(movies);
+        assertEquals(20, longestTitleLength); // Replace 20 with expected result
+    }
+
+    @Test
+    void testCountMoviesFrom() {
+        HomeController controller = new HomeController();
+        List<Movie> movies = Movie.initializeMovies();
+        long count = controller.countMoviesFrom(movies, "Director Name"); // Replace "Director Name" with the director you want to count movies from
+        assertEquals(3, count); // Replace 3 with expected result
+    }
+
+    @Test
+    void testGetMoviesBetweenYears() {
+        HomeController controller = new HomeController();
+        List<Movie> movies = Movie.initializeMovies();
+        List<Movie> moviesBetweenYears = controller.getMoviesBetweenYears(movies, 2000, 2020);
+        assertEquals(3, moviesBetweenYears.size()); // Replace 3 with expected result
     }
 }
