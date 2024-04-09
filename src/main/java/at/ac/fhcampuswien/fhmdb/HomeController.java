@@ -12,14 +12,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
 import java.net.URL;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HomeController implements Initializable {
     @FXML
@@ -48,6 +46,9 @@ public class HomeController implements Initializable {
     protected ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
     protected SortedState sortedState;
+
+    public static ArrayList<Label> titlesList = new ArrayList<Label>();
+    public static ArrayList<Label> descriptionsList = new ArrayList<Label>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

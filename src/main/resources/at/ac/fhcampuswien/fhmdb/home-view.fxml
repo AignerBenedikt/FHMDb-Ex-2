@@ -27,9 +27,9 @@
       <children>
          <JFXButton fx:id="sortBtn" onAction="#sortBtnClicked" styleClass="background-yellow" stylesheets="@styles.css" text="Sort" />
          <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Search FHMDb" />
-         <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
-         <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" layoutX="238.0" layoutY="30.0" styleClass="filter-combo-box" stylesheets="@styles.css" />
-         <JFXComboBox fx:id="ratingComboBox" focusColor="#f5c518" layoutX="299.0" layoutY="30.0" styleClass="filter-combo-box" stylesheets="@styles.css" />
+         <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" promptText="Select Genre" />
+         <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" promptText="Filter by Release Year" />
+         <JFXComboBox fx:id="ratingComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" promptText="Filter by Rating" />
          <JFXButton fx:id="searchBtn" onAction="#searchBtnClicked" styleClass="background-yellow" stylesheets="@styles.css" text="Filter" />
       </children>
       <VBox.margin>

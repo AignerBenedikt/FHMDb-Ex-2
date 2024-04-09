@@ -1,50 +1,53 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.models.Genre;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.google.gson.Gson;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.List;
 
 public class MovieApi {
     private static final String BASE_URL = "https://prog2.fh-campuswien.ac.at/movies";
-    private final OkHttpClient client = new OkHttpClient();
-    private final Gson gson = new Gson();
+    private static final OkHttpClient CLIENT = new OkHttpClient();
+    private static final Gson GSON = new Gson();
 
-    // Methode zum Abrufen aller Filme ohne Filter
-    public String getAllMovies() throws IOException {
-        Request request = new Request.Builder()
-                .url(BASE_URL)
-                .header("User-Agent", "http.agent")
-                .build();
+    private static HttpUrl buildUrl(String query, Genre genre, String releaseYear, String ratingFrom) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL).newBuilder();
+        if (query != null) urlBuilder.addQueryParameter("query", query);
+        if (genre != null) urlBuilder.addQueryParameter("genre", genre.toString());
+        if (releaseYear != null) urlBuilder.addQueryParameter("releaseYear", releaseYear);
+        if (ratingFrom != null) urlBuilder.addQueryParameter("ratingFrom", ratingFrom);
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new IOException("Failed to get movies: " + response);
-            }
-            return response.body().string();
-        }
+        return urlBuilder.build();
     }
 
-    // Methode zum Suchen von Filmen mit Filterkriterien wie Freitext und Genre
-    public String searchMovies(String userInput, String genre) throws IOException {
-        String encodedUserInput = URLEncoder.encode(userInput, StandardCharsets.UTF_8);
-        String encodedGenre = URLEncoder.encode(genre, StandardCharsets.UTF_8);
-        String url = BASE_URL + "?query=" + encodedUserInput + "&genre=" + encodedGenre;
-
+    public static List<Movie> getMovies(String query, Genre genre, String releaseYear, String ratingFrom) {
+        HttpUrl url = buildUrl(query, genre, releaseYear, ratingFrom);
         Request request = new Request.Builder()
                 .url(url)
-                .header("User-Agent", "http.agent")
+                .addHeader("User-Agent", "http.agent") // Wichtig für die API
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
+        try (Response response = CLIENT.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                throw new IOException("Failed to search movies: " + response);
+                System.err.println("Anfrage fehlgeschlagen: " + response);
+                return Collections.emptyList();
             }
-            return response.body().string();
+            // Sicherstellen, dass die Antwort nicht null ist, bevor sie geparst wird
+            String responseBody = response.body() != null ? response.body().string() : null;
+            if (responseBody != null && !responseBody.isEmpty()) {
+                return List.of(GSON.fromJson(responseBody, Movie[].class));
+            }
+        } catch (IOException e) {
+            System.err.println("Fehler beim Abrufen der Filme: " + e.getMessage());
         }
+        return Collections.emptyList();
     }
 
-    // Weitere Methoden für zusätzliche Endpunkte und Funktionen können hier hinzugefügt werden
+    public static List<Movie> getAllMovies() {
+        return getMovies(null, null, null, null);
+    }
 }
