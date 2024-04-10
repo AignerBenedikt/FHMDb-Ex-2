@@ -39,27 +39,6 @@ class HomeControllerTest {
 
         // then
         List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "Avatar",
-                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                        Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION)),
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "Puss in Boots",
-                        "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                        Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)),
-                new Movie(
-                        "The Usual Suspects",
-                        "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                        Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)),
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY))
-
         );
 
         assertEquals(expected, homeController.observableMovies);
@@ -77,26 +56,6 @@ class HomeControllerTest {
 
         // then
         List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY)),
-                new Movie(
-                        "The Usual Suspects",
-                        "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                        Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)),
-                new Movie(
-                        "Puss in Boots",
-                        "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                        Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)),
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "Avatar",
-                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                        Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION))
         );
 
         assertEquals(expected, homeController.observableMovies);
@@ -113,26 +72,6 @@ class HomeControllerTest {
 
         // then
         List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "Avatar",
-                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                        Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION)),
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "Puss in Boots",
-                        "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                        Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)),
-                new Movie(
-                        "The Usual Suspects",
-                        "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                        Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)),
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY))
 
         );
 
@@ -151,14 +90,6 @@ class HomeControllerTest {
 
         // then
         List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY))
         );
 
         assertEquals(expected, actual);
@@ -225,34 +156,57 @@ class HomeControllerTest {
         assertEquals(homeController.allMovies, homeController.observableMovies);
     }
     @Test
-    void testGetMostPopularActor() {
+    public void testGetMostPopularActor() {
+        List<Movie> movies = Arrays.asList(
+                new Movie("The Shawshank Redemption", "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                        Arrays.asList("Drama"), 1994, 9.3, "Frank Darabont", Arrays.asList("Tim Robbins", "Morgan Freeman")),
+                new Movie("The Godfather", "An organized crime dynasty's aging patriarch transfers control of his clandestine empire to his reluctant son.",
+                        Arrays.asList("Crime", "Drama"), 1972, 9.2, "Francis Ford Coppola", Arrays.asList("Marlon Brando", "Al Pacino", "James Caan")),
+                new Movie("The Godfather: Part II", "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+                        Arrays.asList("Crime", "Drama"), 1974, 9.0, "Francis Ford Coppola", Arrays.asList("Al Pacino", "Robert De Niro", "Robert Duvall"))
+        );
         HomeController controller = new HomeController();
-        List<Movie> movies = Movie.initializeMovies();
-        String mostPopularActor = controller.getMostPopularActor(movies);
-        assertEquals("Actor Name", mostPopularActor); // Replace "Actor Name" with expected result
+        assertEquals("Al Pacino", controller.getMostPopularActor(movies));
     }
 
     @Test
-    void testGetLongestMovieTitle() {
+    public void testGetLongestMovieTitle() {
+        List<Movie> movies = Arrays.asList(
+                new Movie("The Dark Knight", "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+                        Arrays.asList("Action", "Crime", "Drama"), 2008, 9.0, "Christopher Nolan", Arrays.asList("Christian Bale", "Heath Ledger", "Aaron Eckhart")),
+                new Movie("The Lord of the Rings: The Return of the King", "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+                        Arrays.asList("Action", "Adventure", "Drama"), 2003, 8.9, "Peter Jackson", Arrays.asList("Elijah Wood", "Viggo Mortensen", "Ian McKellen"))
+        );
         HomeController controller = new HomeController();
-        List<Movie> movies = Movie.initializeMovies();
-        int longestTitleLength = controller.getLongestMovieTitle(movies);
-        assertEquals(20, longestTitleLength); // Replace 20 with expected result
+        assertEquals(45, controller.getLongestMovieTitle(movies));
     }
 
     @Test
-    void testCountMoviesFrom() {
+    public void testCountMoviesFrom() {
+        List<Movie> movies = Arrays.asList(
+                new Movie("The Godfather", "An organized crime dynasty's aging patriarch transfers control of his clandestine empire to his reluctant son.",
+                        Arrays.asList("Crime", "Drama"), 1972, 9.2, "Francis Ford Coppola", Arrays.asList("Marlon Brando", "Al Pacino", "James Caan")),
+                new Movie("The Godfather: Part II", "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+                        Arrays.asList("Crime", "Drama"), 1974, 9.0, "Francis Ford Coppola", Arrays.asList("Al Pacino", "Robert De Niro", "Robert Duvall")),
+                new Movie("The Lord of the Rings: The Return of the King", "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+                        Arrays.asList("Action", "Adventure", "Drama"), 2003, 8.9, "Peter Jackson", Arrays.asList("Elijah Wood", "Viggo Mortensen", "Ian McKellen"))
+        );
         HomeController controller = new HomeController();
-        List<Movie> movies = Movie.initializeMovies();
-        long count = controller.countMoviesFrom(movies, "Director Name"); // Replace "Director Name" with the director you want to count movies from
-        assertEquals(3, count); // Replace 3 with expected result
+        assertEquals(2, controller.countMoviesFrom(movies, "Francis Ford Coppola"));
     }
 
     @Test
-    void testGetMoviesBetweenYears() {
+    public void testGetMoviesBetweenYears() {
+        List<Movie> movies = Arrays.asList(
+                new Movie("The Lord of the Rings: The Return of the King", "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+                        Arrays.asList("Action", "Adventure", "Drama"), 2003, 8.9, "Peter Jackson", Arrays.asList("Elijah Wood", "Viggo Mortensen", "Ian McKellen")),
+                new Movie("Gladiator", "A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.",
+                        Arrays.asList("Action", "Adventure", "Drama"), 2000, 8.5, "Ridley Scott", Arrays.asList("Russell Crowe", "Joaquin Phoenix", "Connie Nielsen")),
+                new Movie("The Godfather: Part II", "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+                        Arrays.asList("Crime", "Drama"), 1974, 9.0, "Francis Ford Coppola", Arrays.asList("Al Pacino", "Robert De Niro", "Robert Duvall"))
+        );
         HomeController controller = new HomeController();
-        List<Movie> movies = Movie.initializeMovies();
-        List<Movie> moviesBetweenYears = controller.getMoviesBetweenYears(movies, 2000, 2020);
-        assertEquals(3, moviesBetweenYears.size()); // Replace 3 with expected result
+        List<Movie> filteredMovies = controller.getMoviesBetweenYears(movies, 2000, 2010);
+        assertEquals(2, filteredMovies.size());
     }
 }

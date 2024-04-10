@@ -12,12 +12,12 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
-public class MovieAPI {
+public class MovieApi {
     private static final String BASE_URL = "https://prog2.fh-campuswien.ac.at/movies";
     private final OkHttpClient client;
     private final Gson gson;
 
-    public MovieAPI() {
+    public MovieApi() {
         this.client = new OkHttpClient();
         this.gson = new Gson();
     }

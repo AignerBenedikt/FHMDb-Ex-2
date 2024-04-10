@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,11 +13,19 @@ public class Movie {
     private String director;
     private List<String> mainCast;
 
-    // Konstruktor für die Deserialisierung von der API
-    public Movie() {
+    // Updated constructor to initialize all fields
+    public Movie(String title, String description, List<String> genres, int releaseYear,
+                 double rating, String director, List<String> mainCast) {
+        this.title = title;
+        this.description = description;
+        this.genres = genres;
+        this.releaseYear = releaseYear;
+        this.rating = rating;
+        this.director = director;
+        this.mainCast = mainCast;
     }
 
-    // Getter und Setter
+    // Getter and Setter methods for all fields
     public String getTitle() {
         return title;
     }
@@ -90,5 +99,18 @@ public class Movie {
     @Override
     public int hashCode() {
         return Objects.hash(getTitle(), getDescription(), getGenres(), getReleaseYear(), getRating(), getDirector(), getMainCast());
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", genres=" + genres +
+                ", releaseYear=" + releaseYear +
+                ", rating=" + rating +
+                ", director='" + director + '\'' +
+                ", mainCast=" + mainCast +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.MovieApi;
 import at.ac.fhcampuswien.fhmdb.models.SortedState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
@@ -21,8 +22,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import java.util.Map;
 
 public class HomeController implements Initializable {
+    private static List<Movie> movies;
     // FXML Fields
     @FXML
     private JFXButton searchBtn;
@@ -40,10 +43,10 @@ public class HomeController implements Initializable {
     private JFXButton sortBtn;
 
     // Other Fields
-    private ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
-    private SortedState sortedState = SortedState.NONE;
-    private MovieAPI movieAPI = new MovieAPI(); // Ensure you have this class created to interact with the API
-    private List<Movie> allMovies;
+    ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
+    SortedState sortedState = SortedState.NONE;
+    private static MovieApi movieAPI = new MovieApi(); // Ensure you have this class created to interact with the API
+    List<Movie> allMovies;
 
     // Initialization Method
     @Override
@@ -84,7 +87,7 @@ public class HomeController implements Initializable {
 
     // State Initialization Method
     public void initializeState() {
-        movieAPI = new MovieAPI();
+        movieAPI = new MovieApi();
         try {
             allMovies = movieAPI.getAllMovies();
             observableMovies.addAll(allMovies);
@@ -119,7 +122,7 @@ public class HomeController implements Initializable {
         sortMovies(sortedState);
     }
 
-    private void applyAllFilters(String searchQuery, Object genre) {
+    void applyAllFilters(String searchQuery, Object genre) {
         List<Movie> filteredMovies = allMovies;
 
         if (!searchQuery.isEmpty()) {
@@ -134,7 +137,7 @@ public class HomeController implements Initializable {
         observableMovies.addAll(filteredMovies);
     }
 
-    private List<Movie> filterByQuery(List<Movie> movies, String query) {
+    List<Movie> filterByQuery(List<Movie> movies, String query) {
         if (query == null || query.isEmpty()) return movies;
 
         return movies.stream()
@@ -145,7 +148,7 @@ public class HomeController implements Initializable {
                 .collect(Collectors.toList());
     }
 
-    private List<Movie> filterByGenre(List<Movie> movies, Genre genre) {
+    List<Movie> filterByGenre(List<Movie> movies, Genre genre) {
         if (genre == null) return movies;
 
         return movies.stream()
@@ -161,5 +164,45 @@ public class HomeController implements Initializable {
             observableMovies.sort(Comparator.comparing(Movie::getTitle));
             sortedState = SortedState.DESCENDING;
         }
+    }
+    public String getMostPopularActor(List<Movie> movies) {
+        // Zähle die Häufigkeit jedes Schauspielers im mainCast
+        Map<String, Long> actorCount = movies.stream()
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(actor -> actor, Collectors.counting()));
+
+        // Ermittle den Schauspieler mit der höchsten Häufigkeit
+        return actorCount.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null); // Rückgabe des Schauspielers oder null, falls Liste leer
+    }
+
+    // Funktion: int getLongestMovieTitle(List<Movie> movies)
+    public int getLongestMovieTitle(List<Movie> movies) {
+        // Filtere nach dem Film mit dem längsten Titel und erhalte die Länge des Titels
+        return movies.stream()
+                .mapToInt(movie -> movie.getTitle().length())
+                .max()
+                .orElse(0); // Rückgabe von 0, falls Liste leer
+    }
+
+    // Funktion: long countMoviesFrom(List<Movie> movies, String director)
+    public long countMoviesFrom(List<Movie> movies, String director) {
+        // Zähle die Filme, bei denen der Regisseur mit dem übergebenen Namen übereinstimmt
+        return movies.stream()
+                .filter(movie -> movie.getDirector().equals(director))
+                .count();
+    }
+
+    // Funktion: List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear)
+    public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear) {
+        // Filtere die Filme basierend auf dem Veröffentlichungsjahr
+        return movies.stream()
+                .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
+                .collect(Collectors.toList());
+    }
+
+    public void sortMovies() {
     }
 }
