@@ -41,6 +41,10 @@ public class HomeController implements Initializable {
     private JFXComboBox<Double> ratingComboBox;
     @FXML
     private JFXButton sortBtn;
+    @FXML
+    private void resetBtnClicked(ActionEvent event) {
+        resetFiltersAndSort();
+    }
 
     // Other Fields
     ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
@@ -95,6 +99,22 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
         sortedState = SortedState.NONE;
+    }
+
+    private void resetFiltersAndSort() {
+        searchField.clear();
+        genreComboBox.getSelectionModel().clearSelection();
+        genreComboBox.setPromptText("Filter by Genre");
+
+        releaseYearComboBox.getSelectionModel().clearSelection();
+        releaseYearComboBox.setPromptText("Filter by Release Year");
+
+        ratingComboBox.getSelectionModel().clearSelection();
+        ratingComboBox.setPromptText("Filter by Rating");
+
+        loadMoviesFromAPI();
+        sortedState = SortedState.NONE;
+        movieListView.setItems(observableMovies);
     }
 
     // Action Methods (FXML event handlers)
@@ -205,4 +225,14 @@ public class HomeController implements Initializable {
 
     public void sortMovies() {
     }
+
+    private void loadMoviesFromAPI() {
+        try {
+            List<Movie> movies = movieAPI.getAllMovies();
+            observableMovies.setAll(movies);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
