@@ -32,21 +32,17 @@ public class MovieCell extends ListCell<Movie> {
                             : "No description available"
             );
 
-            String genres = movie.getGenres()
-                    .stream()
-                    .map(Enum::toString)
-                    .collect(Collectors.joining(", "));
+            // Da movie.getGenres() jetzt eine List<String> zurückgibt, ist keine Konvertierung notwendig.
+            String genres = String.join(", ", movie.getGenres());
             genre.setText(genres);
 
-
-            // color scheme
+            // Hier folgt der Rest deines Codes ohne Änderungen.
             title.getStyleClass().add("text-yellow");
             detail.getStyleClass().add("text-white");
             genre.getStyleClass().add("text-white");
             genre.setStyle("-fx-font-style: italic");
             layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
 
-            // layout
             title.fontProperty().set(title.getFont().font(20));
             detail.setMaxWidth(this.getScene().getWidth() - 30);
             detail.setWrapText(true);
@@ -56,5 +52,6 @@ public class MovieCell extends ListCell<Movie> {
             setGraphic(layout);
         }
     }
+
 }
 

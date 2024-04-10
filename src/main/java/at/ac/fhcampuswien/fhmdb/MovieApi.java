@@ -1,53 +1,60 @@
 package at.ac.fhcampuswien.fhmdb;
 
-import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.google.gson.Gson;
-import okhttp3.*;
+import com.google.gson.reflect.TypeToken;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
-public class MovieApi {
+public class MovieAPI {
     private static final String BASE_URL = "https://prog2.fh-campuswien.ac.at/movies";
-    private static final OkHttpClient CLIENT = new OkHttpClient();
-    private static final Gson GSON = new Gson();
+    private final OkHttpClient client;
+    private final Gson gson;
 
-    private static HttpUrl buildUrl(String query, Genre genre, String releaseYear, String ratingFrom) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL).newBuilder();
-        if (query != null) urlBuilder.addQueryParameter("query", query);
-        if (genre != null) urlBuilder.addQueryParameter("genre", genre.toString());
-        if (releaseYear != null) urlBuilder.addQueryParameter("releaseYear", releaseYear);
-        if (ratingFrom != null) urlBuilder.addQueryParameter("ratingFrom", ratingFrom);
-
-        return urlBuilder.build();
+    public MovieAPI() {
+        this.client = new OkHttpClient();
+        this.gson = new Gson();
     }
 
-    public static List<Movie> getMovies(String query, Genre genre, String releaseYear, String ratingFrom) {
-        HttpUrl url = buildUrl(query, genre, releaseYear, ratingFrom);
+    public List<Movie> getMovies(String query, String genre) throws IOException {
+        StringBuilder urlBuilder = new StringBuilder(BASE_URL);
+        boolean firstParam = true;
+
+        if (query != null && !query.isEmpty()) {
+            urlBuilder.append(firstParam ? "?" : "&").append("query=").append(query);
+            firstParam = false;
+        }
+
+        if (genre != null && !genre.isEmpty()) {
+            urlBuilder.append(firstParam ? "?" : "&").append("genre=").append(genre);
+        }
+
         Request request = new Request.Builder()
-                .url(url)
-                .addHeader("User-Agent", "http.agent") // Wichtig für die API
+                .url(urlBuilder.toString())
+                .addHeader("User-Agent", "http.agent") // Wichtig, um den 403 Statuscode zu vermeiden
                 .build();
 
-        try (Response response = CLIENT.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                System.err.println("Anfrage fehlgeschlagen: " + response);
-                return Collections.emptyList();
-            }
-            // Sicherstellen, dass die Antwort nicht null ist, bevor sie geparst wird
-            String responseBody = response.body() != null ? response.body().string() : null;
-            if (responseBody != null && !responseBody.isEmpty()) {
-                return List.of(GSON.fromJson(responseBody, Movie[].class));
-            }
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            Type listType = new TypeToken<List<Movie>>() {}.getType();
+            return gson.fromJson(response.body().string(), listType);
         } catch (IOException e) {
-            System.err.println("Fehler beim Abrufen der Filme: " + e.getMessage());
+            e.printStackTrace();
+            return Collections.emptyList();
         }
-        return Collections.emptyList();
     }
 
-    public static List<Movie> getAllMovies() {
-        return getMovies(null, null, null, null);
+    // Beispiel Methode, um alle Filme ohne Filter zu laden
+    public List<Movie> getAllMovies() throws IOException {
+        return getMovies(null, null);
     }
+
+    // Hier können weitere Methoden hinzugefügt werden, um die API mit anderen Endpunkten oder Parametern aufzurufen.
 }
